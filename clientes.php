@@ -1,20 +1,19 @@
-<?php include('crud.php'); ?>
+<?php include('crud_clientes.php'); ?>
 
 <?php
 # recupera o registro para edição
 if (isset($_GET['edit'])) {
-    $id = $_GET['edit'];
+    $idcli = $_GET['edit'];
     $update = true;
-    $record = mysqli_query($db, "SELECT * FROM produtos WHERE id=$id");
+    $record = mysqli_query($db, "SELECT * FROM clientes WHERE idcli=$idcli");
     # testa o retorno do select e cria o vetor com os registros trazidos
 
     if ($record) {
         $n = mysqli_fetch_array($record);
-        $nome = $n['nome'];
-        $descricao = $n['descricao'];
-        $qtdEstoque = $n['qtdEstoque'];
-        $precoUnitario = $n['precoUnitario'];
-        $ptoReposicao = $n['ptoReposicao'];
+        $nomecli = $n['nomecli'];
+        $endercli = $n['endercli'];
+        $fonecli = $n['fonecli'];
+        $emailcli = $n['emailcli'];
     }
 }
 ?>
@@ -26,7 +25,7 @@ if (isset($_GET['edit'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Produtos</title>
+    <title>Cadastro de Clientes</title>
     <link rel="stylesheet" type="text/css" href="css/style_register.css">
 </head>
 
@@ -46,16 +45,14 @@ if (isset($_GET['edit'])) {
     <!-- ------------------------------------------------- -->
 
     <!-- recupera os registros do banco de dados e exibe na página -->
-    <?php $results = mysqli_query($db, "SELECT * FROM produtos"); ?>
+    <?php $results = mysqli_query($db, "SELECT * FROM clientes"); ?>
     <table>
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Nome</th>
-                <th>Descrição</th>
-                <th>Estoque</th>
-                <th>Preço</th>
-                <th>Reposiçao</th>
+                <th>Fone</th>
+                <th>Email</th>
                 <th colspan="4">Ação</th>
             </tr>
         </thead>
@@ -63,18 +60,16 @@ if (isset($_GET['edit'])) {
         <!-- Início while -->
         <?php while ($rs = mysqli_fetch_array($results)) { ?>
             <tr>
-                <td><?php echo $rs['id']; ?></td>
-                <td><?php echo $rs['nome']; ?></td>
-                <td><?php echo $rs['descricao']; ?></td>
-                <td><?php echo $rs['qtdEstoque']; ?></td>
-                <td><?php echo $rs['precoUnitario']; ?></td>
-                <td><?php echo $rs['ptoReposicao']; ?></td>
+                <td><?php echo $rs['idcli']; ?></td>
+                <td><?php echo $rs['nomecli']; ?></td>
+                <td><?php echo $rs['fonecli']; ?></td>
+                <td><?php echo $rs['emailcli']; ?></td>
                 <td>
                     <!--produtos.php?edit = <php echo 1; ?>"-->
-                    <a href="produtos.php?edit=<?php echo $rs['id']; ?>" class="edit_btn">Alterar</a>
+                    <a href="clientes.php?edit=<?php echo $rs['idcli']; ?>" class="edit_btn">Alterar</a>
                 </td>
                 <td>
-                    <a href="crud.php?del=<?php echo $rs['id']; ?>" class="del_btn">Remover</a>
+                    <a href="crud_clientes.php?del=<?php echo $rs['idcli']; ?>" class="del_btn">Remover</a>
                 </td>
             </tr>
         <?php } ?>
@@ -82,34 +77,29 @@ if (isset($_GET['edit'])) {
     </table>
     <!-- ------------------------------------------------------------ -->
 
-    <form method="post" action="crud.php">
+    <form method="post" action="crud_clientes.php">
         <!-- campo oculto - contem o id do registro que vai ser atualizado -->
-        <input type="hidden" name="id" value="<?php echo $id; ?>">
+        <input type="hidden" name="idcli" value="<?php echo $idcli; ?>">
 
         <div class="input-group">
-            <label>Produto:</label>
+            <label>Nome:</label>
             <!-- <input type="text" name="nome" value=""> -->
-            <input type="text" name="nome" value="<?php echo $nome; ?>">
+            <input type="text" name="nomecli" value="<?php echo $nomecli; ?>">
         </div>
         <div class="input-group">
-            <label>Descrição:</label>
+            <label>Endereço:</label>
             <!-- <input type="text" name="descricao" value=""> -->
-            <input type="text" name="descricao" value="<?php echo $descricao; ?>">
+            <input type="text" name="endercli" value="<?php echo $endercli; ?>">
         </div>
         <div class="input-group">
-            <label>Quantidade estoque:</label>
+            <label>Fone:</label>
             <!-- <input type="text" name="descricao" value=""> -->
-            <input type="text" name="qtdEstoque" value="<?php echo $qtdEstoque; ?>">
+            <input type="text" name="fonecli" value="<?php echo $fonecli; ?>">
         </div>
         <div class="input-group">
-            <label>Preço Unitário:</label>
+            <label>Email:</label>
             <!-- <input type="text" name="descricao" value=""> -->
-            <input type="text" name="precoUnitario" value="<?php echo $precoUnitario; ?>">
-        </div>
-        <div class="input-group">
-            <label>Ponto reposição:</label>
-            <!-- <input type="text" name="descricao" value=""> -->
-            <input type="text" name="ptoReposicao" value="<?php echo $ptoReposicao; ?>">
+            <input type="text" name="emailcli" value="<?php echo $emailcli; ?>">
         </div>
         <div class="input-group">
             <!-- <button class="btn" type="submit" name="adiciona">Adicionar</button> -->
